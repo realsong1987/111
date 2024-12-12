@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Ваш Персональний Вибір Треків</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Ваш CSS залишається без змін */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #121212;
+      color: #ccc;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    
+    .luxury-container {
+      background: #1e1e1e;
+      padding: 30px 20px;
+      border-radius: 6px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      max-width: 600px;
+      margin: 40px auto;
+      text-align: center;
+    }
+    
+    .luxury-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+  
+    .luxury-subtitle {
+      font-size: 13px;
+      margin-bottom: 25px;
+      color: #aaa;
+    }
+  
+    .luxury-form {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+    }
+  
+    .luxury-input-block {
+      margin-bottom: 15px;
+      text-align: left;
+      margin: 0 auto;
+      width: 100%;
+    }
+  
+    .luxury-label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #fff;
+      font-size: 13px;
+    }
+  
+    .luxury-input {
+      width: 100%;
+      padding: 7px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: inherit;
+      color: #eee;
+      background: #2c2c2c;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+      display: block;
+    }
+    
+    .luxury-input:focus {
+      border-color: #aaa;
+      outline: none;
+    }
+  
+    .track-block {
+      margin-bottom: 20px;
+    }
+  
+    .luxury-track-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+  
+    .luxury-audio {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      display: block;
+      margin-bottom: 8px;
+      background: #333;
+    }
+  
+    .track-rating {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+    
+    .rating-button {
+      font-size: 12px;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: transform 0.3s, opacity 0.3s;
+      user-select: none;
+      border: none;
+    }
+    
+    .rating-button:focus {
+      outline: none;
+    }
+  
+    .rating-button.yes {
+      background-color: #27ae60;
+      color: #fff;
+    }
+    .rating-button.no {
+      background-color: #e74c3c;
+      color: #fff;
+    }
+    .rating-button.ok {
+      background-color: #f1c40f;
+      color: #333;
+      font-weight: 600;
+    }
+  
+    .rating-button:hover {
+      transform: scale(1.05);
+    }
+  
+    .rating-button.selected.yes {
+      background-color: #1abc9c;
+    }
+  
+    .rating-button.selected.no {
+      background-color: #c0392b;
+    }
+  
+    .rating-button.selected.ok {
+      background-color: #e67e22;
+    }
+  
+    .track-rating.option-chosen .rating-button {
+      opacity: 0.4;
+    }
+  
+    .track-rating.option-chosen .rating-button.selected {
+      opacity: 1;
+    }
+  
+    .luxury-submit-wrapper {
+      text-align: center;
+      margin-top: 20px;
+    }
+  
+    .luxury-submit-button {
+      background: #000;
+      color: #fff;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+  
+    .luxury-submit-button:hover {
+      background: #444;
+    }
+  
+    .luxury-successbox {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 16px;
+      color: #4caf50;
+      display: none;
+    }
+  
+    #loading-indicator {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #fff;
+      display: none;
+    }
+  
+    @media (max-width: 600px) {
+      .luxury-audio {
+        width: 100%;
+        max-width: none;
+      }
+      
+      .luxury-container {
+        padding: 20px 10px;
+        margin: 20px auto;
+      }
+      
+      .luxury-submit-button {
+        width: 100%;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="luxury-container">
+    <h1 class="luxury-title">Ваш Персональний Вибір Треків</h1>
+    <p class="luxury-subtitle">Прослухайте треки та оберіть свій варіант для кожного.</p>
+    
+    <form id="luxury-form" class="luxury-form">
+
+      <div class="luxury-input-block">
+        <label class="luxury-label">Ваше ім'я</label>
+        <input type="text" name="name" placeholder="Введіть ім'я" required class="luxury-input">
+      </div>
+      
+      <div class="luxury-input-block">
+        <label class="luxury-label">Дата заходу</label>
+        <input type="date" name="event_date" required class="luxury-input">
+      </div>
+
+      <!-- Трек 1 -->
+      <div class="track-block">
+        <h3 class="luxury-track-title">Трек 1</h3>
+        <audio controls class="luxury-audio">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+          Ваш браузер не підтримує відтворення аудіо.
+        </audio>
+        <div class="track-rating" data-track="Трек 1">
+          <button type="button" class="rating-button yes" data-rating="Yes">Yes</button>
+          <button type="button" class="rating-button no" data-rating="No">No</button>
+          <button type="button" class="rating-button ok selected" data-rating="Ok">Ok</button>
+        </div>
+      </div>
+
+      <!-- Трек 2 -->
+      <div class="track-block">
+        <h3 class="luxury-track-title">Трек 2</h3>
+        <audio controls class="luxury-audio">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+          Ваш браузер не підтримує відтворення аудіо.
+        </audio>
+        <div class="track-rating" data-track="Трек 2">
+          <button type="button" class="rating-button yes" data-rating="Yes">Yes</button>
+          <button type="button" class="rating-button no" data-rating="No">No</button>
+          <button type="button" class="rating-button ok selected" data-rating="Ok">Ok</button>
+        </div>
+      </div>
+
+      <!-- Трек 3 (Тестовий) -->
+      <div class="track-block">
+        <h3 class="luxury-track-title">Трек 3 (Тестовий)</h3>
+        <audio controls class="luxury-audio">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+          Ваш браузер не підтримує відтворення аудіо.
+        </audio>
+        <div class="track-rating" data-track="Трек 3">
+          <button type="button" class="rating-button yes" data-rating="Yes">Yes</button>
+          <button type="button" class="rating-button no" data-rating="No">No</button>
+          <button type="button" class="rating-button ok selected" data-rating="Ok">Ok</button>
+        </div>
+      </div>
+
+      <!-- Трек 4 (Тестовий) -->
+      <div class="track-block">
+        <h3 class="luxury-track-title">Трек 4 (Тестовий)</h3>
+        <audio controls class="luxury-audio">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mpeg">
+          Ваш браузер не підтримує відтворення аудіо.
+        </audio>
+        <div class="track-rating" data-track="Трек 4">
+          <button type="button" class="rating-button yes" data-rating="Yes">Yes</button>
+          <button type="button" class="rating-button no" data-rating="No">No</button>
+          <button type="button" class="rating-button ok selected" data-rating="Ok">Ok</button>
+        </div>
+      </div>
+
+      <!-- Трек 5 (Тестовий) -->
+      <div class="track-block">
+        <h3 class="luxury-track-title">Трек 5 (Тестовий)</h3>
+        <audio controls class="luxury-audio">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" type="audio/mpeg">
+          Ваш браузер не підтримує відтворення аудіо.
+        </audio>
+        <div class="track-rating" data-track="Трек 5">
+          <button type="button" class="rating-button yes" data-rating="Yes">Yes</button>
+          <button type="button" class="rating-button no" data-rating="No">No</button>
+          <button type="button" class="rating-button ok selected" data-rating="Ok">Ok</button>
+        </div>
+      </div>
+
+      <div class="luxury-submit-wrapper">
+        <button type="submit" class="luxury-submit-button">Надіслати</button>
+      </div>
+
+      <div id="loading-indicator">Відправка...</div>
+
+      <div class="t-form__successbox t-text t-text_md luxury-successbox">
+        <div class="t-form__successbox-text t-text t-text_md">
+          Дякуємо! Дані успішно відправлено.
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Підключення зовнішнього JavaScript файлу -->
+  <script src="form-handler.js"></script>
+
+</body>
+</html>
